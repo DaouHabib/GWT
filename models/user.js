@@ -43,7 +43,11 @@ const userSchema = new Schema({
         enum: [ "ADMIN", "USER","EMPLOYEE"]
     },
     creation_dt: { type: Date, require: true }
-
+    ,
+    champs: [{
+        type: Schema.Types.ObjectId,
+        ref: "champ"
+    }],
 });
 
 
