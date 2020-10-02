@@ -12,6 +12,7 @@ const bassinRouter = require('./controllers/bassin.controller');
 const moteurRouter = require('./controllers/moteur.controller');
 const champRouter = require('./controllers/champ.controller');
 const sondageRouter = require('./controllers/sondage.controller');
+const uploads = require('./controllers/uploads.controller');
 
 var cors = require('cors');
 var app = express();
@@ -45,6 +46,7 @@ app.use('/champ', champRouter);
 app.use('/bassin', bassinRouter);
 app.use('/moteur', moteurRouter);
 app.use('/sondage', sondageRouter);
+app.use('/uploads', uploads);
 
 //Cors
 app.use(function (req, res, next) {

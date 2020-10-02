@@ -58,5 +58,48 @@ module.exports = {
         const users = await User.deleteMany();
         res.status(200).json('success');
     },
+    sendemail: async (req, res, next) => {
+        let user = await User.findOne({ email:req.body.email });
+        if (!user) return res.status(400).send('user not registred');
+       
+        const token = jwt.sign({
+                _id:user._id,firstName:user.firstName,lastName: user.lastName,Role:user.Role,
+                iss: 'habibdaou',
+                sub: user.id,
+                iat: new Date().getTime(),
+                exp: new Date().setDate(new Date().getDate() + 1)
+            }, JWT_SECRET);
+
+
+        let transporter = nodemailer.createTransport({
+                port:587,
+                secure:false,
+                service: 'gmail',
+                auth: {
+                        user: "nolivetg@gmail.com",
+                        pass: "mdrlol23",
+                }
+        });
+        let mailOptions = {
+
+                from: 'nolivetg@gmail.com',
+                to: user.email,
+                subject: 'test works',
+                text: 'welcom to ower application if you need to navigate to http://localhost:4200/authentication/forgotPassword/'+token
+        }
+
+        transporter.sendMail(mailOptions, function (err, data) {
+                if (err) {
+                        console.log(err);
+                        res.status(400).json({error:"Error"});
+                } else {
+                        console.log('email sent!! ');
+                        res.status(200).json({Sucess:"sucess"});
+                }
+
+        })
+
+
+},
 
 }
